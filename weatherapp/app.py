@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from config import ProductionConfig
 
 from weather.db import db
-from weather.models.weather_model import WeatherHandler
+from weather.models.weather_model import WeatherModel
 from weather.models.user_model import Users
 from weather.utils.logger import configure_logger
 
@@ -47,7 +47,7 @@ def create_app(config_class=ProductionConfig) -> Flask:
             "message": "Authentication required"
         }), 401)
 
-    weather_handler = WeatherHandler()
+    weather_model = WeatherModel()
 
     #####################################################
     #
