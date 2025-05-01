@@ -2,7 +2,6 @@ import logging
 import os
 import time
 from typing import Dict
-from typing import List
 
 from weather.utils.api_utils import get_weather_data
 from weather.utils.logger import configure_logger
@@ -99,20 +98,6 @@ class WeatherModel:
         if not self.locations:
             logger.error("Locations dictionary is empty")
             raise ValueError("Locations dictionray is empty")
-
-    def get_all_locations(self) -> List[(float, float)]:
-        """ Get the list of locations in the cache.
-
-        Returns:
-            List[(float, float)]: A list of two float tuples representing locations.
-        """
-        try:
-            self.check_if_empty()
-        except:
-            logger.error("No locations to retrieve.")
-
-        logger.info("Retrieving all locations in the list")
-        return [l for l in self.locations.keys()]
     
     def get_weather(self, lat:float, lon:float):
         """ Get the weather data from a location
