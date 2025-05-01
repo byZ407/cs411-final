@@ -99,6 +99,18 @@ class WeatherModel:
             logger.error("Locations dictionary is empty")
             raise ValueError("Locations dictionray is empty")
     
+    def get_all_locations(self):
+        """ Get a list of the location (float tuples).
+
+        Returns:
+            list[(float, float)]: A list of the location coordinates.
+        Raises:
+            ValueError: If the model is empty.
+        """
+        logger.info("Received request to get list of all locations")
+        self.check_if_empty()
+        return [l for l in self.locations.keys()]
+
     def get_weather(self, lat:float, lon:float):
         """ Get the weather data from a location
 

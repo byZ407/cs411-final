@@ -22,6 +22,7 @@ def mock_weather_api(mocker):
 
 """Mock locations"""
 BU = (42.3493, -71.1041)
+LA = (34.0522, -118.2437)
 INV = (-97.3442, 157.6665)
 
 def test_add_location(weather_model, mock_weather_api):
@@ -55,3 +56,15 @@ def test_get_weather(weather_model, mock_weather_api):
     """Test on getting weather data (dumb)"""
     data = weather_model.get_weather(BU[0], BU[1])
     assert data["lat"] == BU[0] and data["lon"] == BU[1]
+
+def test_get_all_locations(weather_model, mock_weather_api):
+    """Test on getting a list of all locations in model"""
+    weather_model.add_location(BU[0], BU[1])
+    weather_model.add_location(LA[0], LA[1])
+    lst = weather_model.get_all_locations()
+    assert len(lst) == 2
+
+def test_get_all_locations_empty(weather_model, mock_weather_api):
+    """Test on getting a list of all locations on an empty model"""
+    with pytest.raises(ValueError, match="Locations dictionray is empty"):
+        weather_model.get_all_locations()
