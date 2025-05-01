@@ -260,7 +260,106 @@ def create_app(config_class=ProductionConfig) -> Flask:
                 "details": str(e)
             }), 500)
 
-    return app
+    ##########################################################
+    #
+    # Weather Management
+    #
+    ##########################################################
+
+@app.route('/weather/locations', methods=['POST'])
+@login_required
+def add_location() -> Response:
+    """Add a new location to track.
+
+    Expected JSON Input:
+        - lat (float): Latitude of the location.
+        - lon (float): Longitude of the location.
+
+    Returns:
+        JSON response indicating success of the addition.
+
+    Raises:
+        400 error if input validation fails.
+        500 error if there is an issue adding the location.
+    """
+    try:
+        app.logger.info("Received request to add new location")
+
+        data = request.get_json()
+        
+        if not data or 'lat' not in data or 'lon' not in data:
+            return make_response(jsonify({
+                "status": "error",
+                "message": "Latitude and longitude are required"
+            }), 400)
+
+        lat = data.get("lat")
+        lon = data.get("lon")
+
+        app.logger.info(f"Adding location ({lat}, {lon})")
+        weather_model.add_location(lat, lon)
+
+        app.logger.info(f"Successfully added location ({lat}, {lon})")
+        return make_response(jsonify({
+            "status": "success",
+            "message": f"Location ({lat}, {lon}) added successfully"
+        }), 201)
+
+    except ValueError as e:
+        app.logger.warning(f"Failed to add location: {e}")
+        return make_response(jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 400)
+
+    except Exception as e:
+        app.logger.error(f"Failed to add location: {e}")
+        return make_response(jsonify({
+            "status": "error",
+            "message": "An internal error occurred while adding the location",
+            "details": str(e)
+        }), 500)
+
+@app.route('/weather/locations/<lat>/<lon>', methods=['DELETE'])
+@login_required
+def remove_location(lat: str, lon: str) -> Response:
+    """Remove a location by latitude and longitude.
+
+    Path Parameters:
+        - lat (float): Latitude of the location.
+        - lon (float): Longitude of the location.
+
+    Returns:
+        JSON response indicating success of the removal.
+
+    Raises:
+        400 error if the location does not exist
+        500 error if there is an issue removing the location.
+    """
+    try:
+        app.logger.info(f"Received request to remove location ({lat}, {lon})")
+
+        weather_model.remove_location(lat, lon)
+        app.logger.info(f"Successfully removed location ({lat}, {lon})")
+        return make_response(jsonify({
+            "status": "success",
+            "message": f"Location ({lat}, {lon}) removed successfully"
+        }), 200)
+
+    except ValueError as e:
+        app.logger.warning(f"Failed to remove location: {e}")
+        return make_response(jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 400)
+    except Exception as e:
+        app.logger.error(f"Failed to remove location: {e}")
+        return make_response(jsonify({
+            "status": "error",
+            "message": "An internal error occurred while removing the location",
+            "details": str(e)
+        }), 500)
+
 
 if __name__ == '__main__':
     app = create_app()
