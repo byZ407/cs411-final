@@ -399,7 +399,32 @@ def create_app(config_class=ProductionConfig) -> Flask:
                 "message": str(e)
             }), 500)
 
-    
+    @app.route('/weather/all', methods=['GET'])
+    @login_required
+    def get_all_locations() -> Response:
+        """ Get the list of all locations.
+
+        Returns:
+            JSON containing a list of the location coordinates.
+
+        Raises:
+            400 error if the list of locations is empty
+        """
+        try:
+            app.logger.info(f"Trying to retrieve list of all locations")
+            lst = weather_model.get_all_locations()
+
+            return make_response(jsonify({
+                "status": "success",
+                "message": "Successfully retrieved list of all locations",
+                "locations": lst,
+            }), 200)
+        except ValueError as e:
+            app.logger.error(f"There was an issue getting all locations: {e}")
+            return make_response(jsonify({
+                "status": "error",
+                "message": "There was an issue getting list of all locations."
+            }), 400)
         
     return app
 
