@@ -360,7 +360,7 @@ def create_app(config_class=ProductionConfig) -> Flask:
                 "details": str(e)
             }), 500)
 
-    @app.route('/weather/locations/get/<lat>/<lon>', methods=['GET'])
+    @app.route('/weather/<lat>/<lon>', methods=['GET'])
     @login_required
     def get_weather(lat:float, lon:float) -> Response:
         """Get a location's weather data.
