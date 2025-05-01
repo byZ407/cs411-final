@@ -1,9 +1,9 @@
 import logging
 import os
 import time
-import requests
 from typing import Dict
 
+from weather.utils.api_utils import get_weather_data
 from weather.utils.logger import configure_logger
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class WeatherModel:
         self.validate_location(lat, lon)
         if location in self.locations:
             raise ValueError(f"Location ({lat}, {lon}) already exists")
-        weather_data = self._fetch_weather(lat, lon)
+        weather_data = self.get_weather_data(lat, lon)
         self.locations[location] = weather_data
         logger.info(f"Successfully added location ({lat}, {lon})")
 
