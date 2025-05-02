@@ -57,13 +57,13 @@ def run_smoketest():
     print("Login with new password successful")
 
     # Add valid location
-    add_loc_resp = session.post(f"{base_url}/locations", json=valid_location)
+    add_loc_resp = session.post(f"{base_url}/add-location", json=valid_location)
     assert add_loc_resp.status_code == 201
     assert "added" in add_loc_resp.json()["message"]
     print("Added valid location successfully")
 
     # Get weather for valid location
-    get_weather1_resp = session.get(f"{base_url}/weather/42.3493/-71.1041")
+    get_weather1_resp = session.get(f"{base_url}/get-weather/42.3493/-71.1041")
     assert get_weather1_resp.status_code == 200
     assert get_weather1_resp.json()["status"] == "success"
     weather_data = get_weather1_resp.json()["weather"]
@@ -71,13 +71,13 @@ def run_smoketest():
     print("Retrieved weather data for valid location successfully")
 
     # Try adding duplicate location
-    dup_loc_resp = session.post(f"{base_url}/locations", json=valid_location)
+    dup_loc_resp = session.post(f"{base_url}/add-location", json=valid_location)
     assert dup_loc_resp.status_code == 400
     assert "already exists" in dup_loc_resp.json()["message"]
     print("Add duplicate location failed as expected")
 
     # Add invalid location
-    invalid_loc_resp = session.post(f"{base_url}/locations", json=invalid_location)
+    invalid_loc_resp = session.post(f"{base_url}/add-location", json=invalid_location)
     assert invalid_loc_resp.status_code == 400
     assert "invalid" in invalid_loc_resp.json()["message"].lower()
     print("Add invalid location failed as expected")
@@ -88,7 +88,7 @@ def run_smoketest():
     assert logout_resp.json()["status"] == "success"
     print("Logout successful")
 
-    add_location_logged_out_resp = session.post(f"{base_url}/weather/locations", json=valid_location)
+    add_location_logged_out_resp = session.post(f"{base_url}/add-location", json=valid_location)
     # This should fail because we are logged out
     assert add_location_logged_out_resp.status_code == 401
     assert add_location_logged_out_resp.json()["status"] == "error"

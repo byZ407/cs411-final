@@ -266,7 +266,7 @@ def create_app(config_class=ProductionConfig) -> Flask:
     #
     ##########################################################
 
-    @app.route('/weather/locations', methods=['POST'])
+    @app.route('/api/add-location', methods=['POST'])
     @login_required
     def add_location() -> Response:
         """Add a new location to track.
@@ -320,7 +320,7 @@ def create_app(config_class=ProductionConfig) -> Flask:
                 "details": str(e)
             }), 500)
 
-    @app.route('/weather/locations/<lat>/<lon>', methods=['DELETE'])
+    @app.route('/api/remove-location/<lat>/<lon>', methods=['DELETE'])
     @login_required
     def remove_location(lat: float, lon: float) -> Response:
         """Remove a location by latitude and longitude.
@@ -360,7 +360,7 @@ def create_app(config_class=ProductionConfig) -> Flask:
                 "details": str(e)
             }), 500)
 
-    @app.route('/weather/<lat>/<lon>', methods=['GET'])
+    @app.route('/api/get-weather/<lat>/<lon>', methods=['GET'])
     @login_required
     def get_weather(lat:float, lon:float) -> Response:
         """Get a location's weather data.
