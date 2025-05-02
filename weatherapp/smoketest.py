@@ -58,6 +58,7 @@ def run_smoketest():
 
     # Add valid location
     add_loc_resp = session.post(f"{base_url}/add-location", json=valid_location)
+    print("Add location response:", add_loc_resp.status_code, add_loc_resp.text)
     assert add_loc_resp.status_code == 201
     assert "added" in add_loc_resp.json()["message"]
     print("Added valid location successfully")

@@ -7,8 +7,7 @@ from weather.utils.logger import configure_logger
 logger = logging.getLogger(__name__)
 configure_logger(logger)
 
-OPENWEATHER_URL = os.getenv("OPENWEATHER_URL",
-                            "https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={api_key}")
+OPENWEATHER_URL = os.getenv("OPENWEATHER_URL", "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}")
 
 def get_weather_data(lat: float, lon: float) -> dict:
     """
