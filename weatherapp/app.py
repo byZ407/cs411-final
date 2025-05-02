@@ -448,7 +448,7 @@ def create_app(config_class=ProductionConfig) -> Flask:
             return make_response(jsonify({
                 "status": "success",
                 "message": "Successfully updated location.",
-            }), 200)
+            }), 201)
         except ValueError as e:
             app.logger.error(f"There was an issue updating location: {e}")
             return make_response(jsonify({
