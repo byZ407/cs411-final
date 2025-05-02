@@ -37,8 +37,8 @@ class WeatherModel:
             ValueError: If the location is invalid or already exists.
         """
         logger.info(f"Received request to add location with coordinates ({lat}, {lon})")
-        location = (lat, lon)
         self.validate_location(lat, lon)
+        location = (float(lat), float(lon))
         if location in self.locations:
             raise ValueError(f"Location ({lat}, {lon}) already exists")
         weather_data = self.get_weather(lat, lon)
@@ -58,8 +58,8 @@ class WeatherModel:
         """
         logger.info(f"Received request to remove location with coordinates ({lat}, {lon})")
         self.check_if_empty()
-        location = (lat, lon)
         self.validate_location(lat, lon)
+        location = (float(lat), float(lon))
         if location not in self.locations:
             raise ValueError(f"Location ({lat}, {lon}) not found")
         del self.locations[location]
@@ -122,7 +122,7 @@ class WeatherModel:
             ValueError: If the location does not exist in the dictionary.
         """
         logger.info("Received request to update location with new data")
-        location = (lat, lon)
+        location = (float(lat), float(lon))
         if location not in self.locations:
             raise ValueError(f"Location ({lat}, {lon}) not found")
         self.locations[location] = self.get_weather(lat, lon)
