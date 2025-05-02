@@ -111,6 +111,22 @@ class WeatherModel:
         self.check_if_empty()
         return [l for l in self.locations.keys()]
 
+    def update_location(self, lat:float, lon:float) -> None:
+        """ Update the location in the list with new weather data.
+
+        Args:
+            lat (float): The lattitude of the location.
+            lon (float): The longitude of the location.
+
+        Raises:
+            ValueError: If the location does not exist in the dictionary.
+        """
+        logger.info("Received request to update location with new data")
+        location = (lat, lon)
+        if location not in self.locations:
+            raise ValueError(f"Location ({lat}, {lon}) not found")
+        self.locations[location] = self.get_weather(lat, lon)
+
     def get_weather(self, lat:float, lon:float):
         """ Get the weather data from a location
 
