@@ -399,7 +399,7 @@ def create_app(config_class=ProductionConfig) -> Flask:
                 "message": str(e)
             }), 500)
 
-    @app.route('/weather/all', methods=['GET'])
+    @app.route('/api/get-all-locations', methods=['GET'])
     @login_required
     def get_all_locations() -> Response:
         """ Get the list of all locations.
