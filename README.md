@@ -1,5 +1,5 @@
 # CS411 Final Project: Weather App
-The Weather App allows users to log in and out of their account, save a list of locations that they can get the current weather of, and they can add, remove, and update those locations.
+The Weather App allows users to log in and out of their account, save a list of locations that they can get the current weather of, and add, remove, and update those locations.
 
 # Features
 - **Log in and Logout of Their Account**
@@ -161,11 +161,6 @@ The Weather App allows users to log in and out of their account, save a list of 
     - Content: { "status": "error",  "message": "There was an issue updating location!" }
   - Example Request: {"lat": 40.7128, "lon": -74.0060}
   - Example Response: {  "status": "success", "message": "Successfully updated location.", "status": 200 }
-
- 
-
-
-
   
 
 
