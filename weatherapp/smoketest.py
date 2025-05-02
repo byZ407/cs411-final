@@ -62,6 +62,12 @@ def run_smoketest():
     assert "added" in add_loc_resp.json()["message"]
     print("Added valid location successfully")
 
+    # Get existing location
+    get_all_loc_resp = session.get(f"{base_url}/get-all-locations")
+    assert get_all_loc_resp.status_code == 200
+    assert get_all_loc_resp.json()["status"] == "success"
+    print("Retrieved all locations successfully")
+
     # Get weather for valid location
     get_weather1_resp = session.get(f"{base_url}/get-weather/42.3493/-71.1041")
     assert get_weather1_resp.status_code == 200
@@ -69,6 +75,12 @@ def run_smoketest():
     weather_data = get_weather1_resp.json()["weather"]
     assert "weather" in get_weather_resp.json()
     print("Retrieved weather data for valid location successfully")
+
+    # Update location
+    update_loc_resp = session.put(f"{base_url}/update-location/42.3493/-71.1041")
+    assert update_loc_resp.status_code == 200
+    assert update_loc_resp.json()["status"] == "success"
+    print("Updated location successfully")
 
     # Try adding duplicate location
     dup_loc_resp = session.post(f"{base_url}/add-location", json=valid_location)
