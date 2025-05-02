@@ -425,7 +425,37 @@ def create_app(config_class=ProductionConfig) -> Flask:
                 "status": "error",
                 "message": "There was an issue getting list of all locations."
             }), 400)
-        
+    
+    @app.route('/api/update-location/<lat>/<lon>', methods=['PUT'])
+    @login_required
+    def update_location(lat:float, lon:float) -> Response:
+        """Update a location's weather data.
+
+        Path Parameters:
+            - lat (float): Latitude of the location.
+            - lon (float): Longitude of the location.
+
+        Returns:
+            JSON message for success.
+
+        Raises:
+            400 error if the location cannot be found.
+        """
+        try:
+            app.logger.info(f"Trying to update a location at ({lat}, {lon})")
+            weather_model.update_location(lat, lon)
+
+            return make_response(jsonify({
+                "status": "success",
+                "message": "Successfully updated location.",
+            }), 200)
+        except ValueError as e:
+            app.logger.error(f"There was an issue updating location: {e}")
+            return make_response(jsonify({
+                "status": "error",
+                "message": "There was an issue updating location!"
+            }), 400)
+    
     return app
 
 if __name__ == '__main__':
