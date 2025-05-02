@@ -73,7 +73,7 @@ def run_smoketest():
     assert get_weather1_resp.status_code == 200
     assert get_weather1_resp.json()["status"] == "success"
     weather_data = get_weather1_resp.json()["weather"]
-    assert "weather" in get_weather_resp.json()
+    assert "weather" in get_weather1_resp.json()
     print("Retrieved weather data for valid location successfully")
 
     # Update location
