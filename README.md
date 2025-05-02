@@ -12,4 +12,27 @@ weather for each location.
 
 # Routes
 ## Route: /create-account
+- Request Type: POST
+- Purpose: Creates a new user account with a username and password.
+- Request Body:
+  - username (String): The username of the user.
+  - password (String): The password to hash and store.
+- Response Format: JSON
+  - Success Response Example:
+    - Code: 200
+    - Content: { "message": "User successfully added to the database: <username>" }
+- Error Response Examples:
+  - Code: 400  
+    Content: { "error": "Username and password are required" }
+  - Code: 409  
+    Content: { "error": "User with username '{username}' already exists" }
+  - Code: 500  
+    Content: { "error": "Database error: <error_message>" }
+- Example Request: { "username": "newuser123", "password": "securepassword" }
+- Example Response: { "message": "User successfully added to the database: <username>", "status": "201" }
+
+## Route: /update-password
+- Request Type: PUT
+
+
 
