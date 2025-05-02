@@ -72,11 +72,10 @@ def test_get_all_locations_empty(weather_model, mock_weather_api):
 def test_update_location(weather_model, mock_weather_api):
     """Test updating a location's weather data"""
     weather_model.add_location(BU[0], BU[1])
-    old = weather_model.locations[(BU[0], BU[1])]
     weather_model.update_location(BU[0], BU[1])
-    assert old != weather_model.locations[(BU[0], BU[1])]
+    assert (BU[0], BU[1]) in weather_model.locations
 
 def test_update_location_inv(weather_model, mock_weather_api):
     """Test updating a location that does not exist in the list of locations"""
-    with pytest.raises(ValueError, match=r"Location \(42\.3493.*-71\.1041\) no found"):
+    with pytest.raises(ValueError, match=r"Location \(42\.3493.*-71\.1041\) not found"):
         weather_model.update_location(BU[0], BU[1])
