@@ -126,12 +126,12 @@ The Weather App allows users to log in and out of their account, save a list of 
 - Response Format: JSON
   - Success Response Example:
     - Code: 200
-    - Content: { "status": "success", "message": "Successfully retrieved location weather",  "weather": <data> }
+    - Content: { "status": "success", "message": "Successfully retrieved location weather",  "weather": <weather_data> }
   - Error Response Example:
     - Code: 400: Content { "status": "error", "message": "Failed to get data for location" }
     - Code: 500 Content { "status": "error", "message" There was an error while trying to get data for location" }
 - Example Request:  {"lat": 42.3493, "lon": -71.1041 }
-- Example Response: {"status":"success", "message": "Successfully retrieved location weather", "weather":<data>, "status": 200 }
+- Example Response: {"status":"success", "message": "Successfully retrieved location weather", "weather":<weather_data>, "status": 200 }
 
 ## Route: /get_all_locations
 - Request Type: GET
