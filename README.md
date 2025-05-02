@@ -1,38 +1,83 @@
 # CS411 Final Project: Weather App
-The Weather App allows users to set up their favorite locations and easily view the weather forcasts for these locations. 
+The Weather App allows users to log in and out of their account, save a list of locations that they can get the current weather of, and they can add, remove, and update those locations.
 
 # Features
-- **Set Favorite Locations:** Users can add their favorite locations to their profile.
-- **Get Weather for a Favorite Location:** Provides the current weather details for a user's saved favorite location.
-- **View All Favorites with Current Weather:** Displays a list of all favorite locations saved by the user along with the current
-weather for each location.
-- **See All Favorites:** Allows users to view a simple list of all their saved favorite locations. 
-- **Get Historical Weather for a Favorite:** Retrieves historical weather data for a specified favorite location. 
-- **Get Forecast for a Favorite:** Offers a detailed weather forecast for a favorite location.
+- **Log in and Logout of Their Account**
+- **Add and Remove Locations from their List**
+- **Get the Weather for Those Locations**
 
 # Routes
-## Route: /create-account
-- Request Type: POST
-- Purpose: Creates a new user account with a username and password.
-- Request Body:
-  - username (String): The username of the user.
-  - password (String): The password to hash and store.
+## Route: /health
+- Request Type: GET
+- Purpose: Checks the health
 - Response Format: JSON
   - Success Response Example:
-    - Code: 200
-    - Content: { "message": "User successfully added to the database: <username>" }
+  - Code: 200
+  - Content: { "status": "healthy" }
+
+## Route: /create-user
+- Request Type: PUT
+- Purpose: Creates a new user account with a username and password.
+- Request Body:
+  - username (String): The desired username.
+  - password (String): The desired password.
+- Response Format: JSON
+  - Success Response Example:
+    - Code: 201
+    - Content: { "message": "User <username> created successfully" }
 - Error Response Examples:
   - Code: 400  
     Content: { "error": "Username and password are required" }
-  - Code: 409  
-    Content: { "error": "User with username '{username}' already exists" }
-  - Code: 500  
-    Content: { "error": "Database error: <error_message>" }
+  - Code: 500
+    Content: { "error": "An internal error occurred while creating user" }
 - Example Request: { "username": "newuser123", "password": "securepassword" }
-- Example Response: { "message": "User successfully added to the database: <username>", "status": "201" }
+- Example Response: { "message": "User successfully added to the database: <username>", "status": "200" }
 
-## Route: /update-password
+## Route: /login
+- Request Type: POST
+- Purpose: Authenticate a user and log them in.
+- Request Body:
+  - username (String): User's chosen username.
+  - password (String): User's chosen password.
+- Response Format: JSON
+- Success Response Example:
+ - Code: 200
+ - Content: { "message": "User <username> logged in successfully" }
+Error Response Examples:
+  - Code: 400 Content: { "error": "Username and password are required" }
+  - Code: 401 Content: { "error": "Invalid username or password" }
+  - Code: 500 Content: { "error": "An internal error occurred during login" }
+Example Request: { "username": "newuser1", "password": "securepassword" }
+Example Response: { "message": "User <username> logged in successfully", "status": "200" }
+
+## Route: /logout
+- Request Type: POST
+- PURPOSE: Log out the current user.
+- Request Body: None
+- Response Format: JSON
+- Success Response Example:
+  -  Code: 200
+  -  Content: { "message": "User logged out successfully" }
+- Example Response:{ "message": "User <username> logged out successfully", "status": "200" }
+
+## Route: /change_password
 - Request Type: PUT
+- Purpose: Allows users to change their password by providing their current password for verification.
+- Request Body:
+  - new_password (String): The new password to set.
+- Response Format: JSON
+- Success Response Example:
+  - Code: 200
+  - Content: { "message": "Password changed successfully" }
+- Error Response Examples:
+  - Code: 400 Content: { "error": "New password is required" }
+  - Code: 500 Content: { "error": "An internal error occurred while changing password" }
+- Example Request: { "new_password": "newpassword" }
+- Example Response: { "message": "Password changed successfully" "status": "200" }
+
+## 
+  
+
 
 
 
